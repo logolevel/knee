@@ -38,7 +38,7 @@ export function buildPhases(settings, exercises) {
             set,
             totalSets: tabataSets,
             label: 'Работа',
-            speech: set === 1 ? exercise.title : null,
+            speech: set === 1 ? `${exercise.title}. Старт` : 'Старт',
           });
         }
 

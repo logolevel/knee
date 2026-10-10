@@ -32,11 +32,11 @@ export function ConfigurationScreen({
           <div className="grid grid-cols-2 gap-3">
             <NumberField
               label="Разминка"
-              suffix="секунды"
-              value={settings.warmupTime}
+              suffix="минуты"
+              value={Math.round((settings.warmupTime ?? 0) / 60)}
               min={0}
-              max={1800}
-              onChange={(warmupTime) => onSettingsChange({ warmupTime })}
+              max={30}
+              onChange={(warmupMinutes) => onSettingsChange({ warmupTime: warmupMinutes * 60 })}
             />
             <NumberField
               label="Работа табаты"
