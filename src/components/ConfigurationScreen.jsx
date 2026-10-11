@@ -1,4 +1,5 @@
-import { Play } from 'lucide-react';
+import { ChevronDown, Play } from 'lucide-react';
+import { warmupExercise } from '../data/defaults';
 import { NumberField } from './NumberField.jsx';
 import { ExerciseCard } from './ExerciseCard.jsx';
 
@@ -29,9 +30,25 @@ export function ConfigurationScreen({
           <h2 className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-slate-300">
             Глобальные настройки
           </h2>
+          <details className="group mb-4 rounded-2xl border border-amber-500/20 bg-amber-500/5">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-300 [&::-webkit-details-marker]:hidden">
+              Разминка
+              <ChevronDown
+                size={16}
+                className="shrink-0 transition-transform group-open:rotate-180"
+              />
+            </summary>
+            <div className="px-3 pb-3">
+              <p className="text-base font-semibold text-white">{warmupExercise.title}</p>
+              <p className="mt-1 text-sm leading-relaxed text-slate-400">
+                {warmupExercise.description}
+              </p>
+            </div>
+          </details>
+
           <div className="grid grid-cols-2 gap-3">
             <NumberField
-              label="Разминка"
+              label="Время разминки"
               suffix="минуты"
               value={Math.round((settings.warmupTime ?? 0) / 60)}
               min={0}

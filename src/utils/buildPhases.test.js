@@ -30,7 +30,8 @@ const checks = [
   ['leg swap creates two regular phases', regular.length === 2 && regular[1].speech === 'Смена ноги' && regular[0].duration === 180],
   ['transition announces next title', transitions[0].speech.includes('Табата Б') === false && transitions[0].nextExerciseTitle === 'Регуляр с ногами'],
   ['three exercise starts', starts.length === 3],
-  ['warmup speech', phases[0].speech === 'Началась разминка'],
+  ['warmup speech', phases[0].speech === 'Началась разминка. Скольжение на пятках'],
+  ['warmup title', phases[0].exerciseTitle === 'Скольжение на пятках'],
   ['tabata work says start', tabataA.find((p) => p.kind === 'tabata-work' && p.set === 1)?.speech === 'Табата А. Старт'],
   ['later tabata work says start only', tabataA.find((p) => p.kind === 'tabata-work' && p.set === 2)?.speech === 'Старт'],
 ];

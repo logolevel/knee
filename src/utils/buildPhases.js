@@ -1,3 +1,5 @@
+import { warmupExercise } from '../data/defaults.js';
+
 export function getActiveExercises(exercises) {
   return (exercises ?? []).filter((exercise) => exercise.isActive);
 }
@@ -19,7 +21,9 @@ export function buildPhases(settings, exercises) {
       kind: 'warmup',
       duration: warmupTime,
       label: 'Разминка',
-      speech: 'Началась разминка',
+      exerciseTitle: warmupExercise.title,
+      exerciseDescription: warmupExercise.description,
+      speech: `Началась разминка. ${warmupExercise.title}`,
     });
   }
 

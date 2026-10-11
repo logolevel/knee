@@ -6,14 +6,14 @@ export const defaultSettings = {
   restBetweenExercises: 20,
 };
 
+export const warmupExercise = {
+  title: 'Скольжение на пятках',
+  description: 'Лечь на спину на пол и скользить пятками по полу до ягодиц.',
+};
+
+const removedExerciseIds = new Set(['1']);
+
 export const defaultExercises = [
-  {
-    id: '1',
-    title: 'Скольжение на пятках',
-    description: 'Лечь на спину на пол и скользить пятками по полу до ягодиц.',
-    type: 'tabata',
-    isActive: true,
-  },
   {
     id: '2',
     title: 'Вдавливание колена',
@@ -94,7 +94,7 @@ export const defaultExercises = [
     title: 'Приседания с резинкой',
     description: 'Зацепить резинку за столбик и обе ноги и приседать.',
     type: 'regular',
-    durationMinutes: 3,
+    durationMinutes: 1,
     hasLegSwap: false,
     isActive: true,
   },
@@ -125,21 +125,28 @@ export function mergeExercises(stored) {
   }
 
   const storedById = new Map(stored.map((exercise) => [exercise.id, exercise]));
-  const merged = stored.map((exercise) => {
-    const fallback = defaultExercises.find((item) => item.id === exercise.id);
-    const base = fallback ? { ...fallback, ...exercise } : { ...exercise };
+  const merged = stored
+    .filter((exercise) => !removedExerciseIds.has(exercise.id))
+    .map((exercise) => {
+      const fallback = defaultExercises.find((item) => item.id === exercise.id);
+      const storedDuration = exercise.durationMinutes;
+      const nextDuration =
+        exercise.id === '11' && storedDuration === 3
+          ? fallback?.durationMinutes ?? 1
+          : storedDuration;
+      const base = fallback ? { ...fallback, ...exercise, durationMinutes: nextDuration } : { ...exercise };
 
-    return {
-      ...base,
-      isActive: Boolean(base.isActive),
-      type: base.type === 'regular' ? 'regular' : 'tabata',
-      durationMinutes:
-        base.type === 'regular'
-          ? Math.max(1, toNonNegativeInt(base.durationMinutes, 3))
-          : undefined,
-      hasLegSwap: base.type === 'regular' ? Boolean(base.hasLegSwap) : undefined,
-    };
-  });
+      return {
+        ...base,
+        isActive: Boolean(base.isActive),
+        type: base.type === 'regular' ? 'regular' : 'tabata',
+        durationMinutes:
+          base.type === 'regular'
+            ? Math.max(1, toNonNegativeInt(base.durationMinutes, fallback?.durationMinutes ?? 3))
+            : undefined,
+        hasLegSwap: base.type === 'regular' ? Boolean(base.hasLegSwap) : undefined,
+      };
+    });
 
   defaultExercises.forEach((exercise) => {
     if (!storedById.has(exercise.id)) {
