@@ -66,7 +66,7 @@ export const defaultExercises = [
     description:
       'Встать на одну ногу, слегка согнув колено, и отводить ногу прямую в четыре плоскости: вперёд, вбок, назад и в другой бок.',
     type: 'regular',
-    durationMinutes: 3,
+    durationMinutes: 2,
     hasLegSwap: true,
     isActive: true,
   },
@@ -86,7 +86,7 @@ export const defaultExercises = [
     description: 'Надеть резину на колени и приставным шагом перемещаться, не раскачиваясь.',
     type: 'regular',
     durationMinutes: 3,
-    hasLegSwap: true,
+    hasLegSwap: false,
     isActive: true,
   },
   {
