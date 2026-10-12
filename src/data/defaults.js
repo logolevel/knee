@@ -6,11 +6,6 @@ export const defaultSettings = {
   restBetweenExercises: 20,
 };
 
-export const warmupExercise = {
-  title: 'Скольжение на пятках',
-  description: 'Лечь на спину на пол и скользить пятками по полу до ягодиц.',
-};
-
 const removedExerciseIds = new Set(['1']);
 
 export const defaultExercises = [

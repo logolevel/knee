@@ -1,10 +1,10 @@
-import { warmupExercise } from '../data/defaults.js';
+import { translations } from '../i18n/translations.js';
 
 export function getActiveExercises(exercises) {
   return (exercises ?? []).filter((exercise) => exercise.isActive);
 }
 
-export function buildPhases(settings, exercises) {
+export function buildPhases(settings, exercises, messages = translations.en) {
   const {
     warmupTime = 0,
     tabataWorkTime = 0,
@@ -13,6 +13,7 @@ export function buildPhases(settings, exercises) {
     restBetweenExercises = 0,
   } = settings ?? {};
 
+  const { phase: labels, speech, warmupExercise } = messages;
   const active = getActiveExercises(exercises);
   const phases = [];
 
@@ -20,10 +21,10 @@ export function buildPhases(settings, exercises) {
     phases.push({
       kind: 'warmup',
       duration: warmupTime,
-      label: 'Разминка',
+      label: labels.warmup,
       exerciseTitle: warmupExercise.title,
       exerciseDescription: warmupExercise.description,
-      speech: `Началась разминка. ${warmupExercise.title}`,
+      speech: speech.warmupStart(warmupExercise.title),
     });
   }
 
@@ -41,8 +42,8 @@ export function buildPhases(settings, exercises) {
             exerciseDescription: exercise.description,
             set,
             totalSets: tabataSets,
-            label: 'Работа',
-            speech: set === 1 ? `${exercise.title}. Старт` : 'Старт',
+            label: labels.work,
+            speech: set === 1 ? speech.startWithTitle(exercise.title) : speech.start,
           });
         }
 
@@ -55,8 +56,8 @@ export function buildPhases(settings, exercises) {
             exerciseDescription: exercise.description,
             set,
             totalSets: tabataSets,
-            label: 'Отдых',
-            speech: 'Отдых',
+            label: labels.rest,
+            speech: speech.rest,
           });
         }
       }
@@ -75,10 +76,10 @@ export function buildPhases(settings, exercises) {
           totalLegs,
           label: exercise.hasLegSwap
             ? leg === 1
-              ? 'Первая нога'
-              : 'Вторая нога'
-            : 'Упражнение',
-          speech: leg === 1 ? exercise.title : 'Смена ноги',
+              ? labels.firstLeg
+              : labels.secondLeg
+            : labels.exercise,
+          speech: leg === 1 ? exercise.title : speech.legSwap,
         });
       }
     }
@@ -91,13 +92,35 @@ export function buildPhases(settings, exercises) {
         exerciseTitle: exercise.title,
         nextExerciseId: nextExercise.id,
         nextExerciseTitle: nextExercise.title,
-        label: 'Отдых',
-        speech: `Отдых. Следующее упражнение: ${nextExercise.title}`,
+        label: labels.rest,
+        speech: speech.transition(nextExercise.title),
       });
     }
   });
 
   return phases;
+}
+
+export function getTotalDuration(settings, exercises) {
+  return buildPhases(settings, exercises).reduce((sum, phase) => sum + phase.duration, 0);
+}
+
+export function getTotalBreakdown(settings, exercises) {
+  const breakdown = { warmup: 0, tabata: 0, regular: 0, rest: 0 };
+
+  buildPhases(settings, exercises).forEach((phase) => {
+    if (phase.kind === 'warmup') {
+      breakdown.warmup += phase.duration;
+    } else if (phase.kind === 'tabata-work' || phase.kind === 'tabata-rest') {
+      breakdown.tabata += phase.duration;
+    } else if (phase.kind === 'regular') {
+      breakdown.regular += phase.duration;
+    } else if (phase.kind === 'transition') {
+      breakdown.rest += phase.duration;
+    }
+  });
+
+  return breakdown;
 }
 
 export function findExerciseStarts(phases) {

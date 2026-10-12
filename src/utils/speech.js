@@ -18,15 +18,19 @@ function ensureVoices() {
   window.speechSynthesis.addEventListener('voiceschanged', markReady, { once: true });
 }
 
-function pickRussianVoice() {
+function pickVoice(lang) {
   if (!window.speechSynthesis) {
     return null;
   }
 
+  const wanted = lang.toLowerCase();
+  const base = wanted.split('-')[0];
   const voices = window.speechSynthesis.getVoices();
+
   return (
-    voices.find((voice) => voice.lang?.toLowerCase().startsWith('ru')) ??
-    voices.find((voice) => voice.lang?.toLowerCase().includes('ru')) ??
+    voices.find((voice) => voice.lang?.toLowerCase().replace('_', '-') === wanted) ??
+    voices.find((voice) => voice.lang?.toLowerCase().replace('_', '-').startsWith(`${base}-`)) ??
+    voices.find((voice) => voice.lang?.toLowerCase() === base) ??
     null
   );
 }
@@ -39,7 +43,7 @@ export function cancelSpeech() {
   window.speechSynthesis.cancel();
 }
 
-export function speak(text) {
+export function speak(text, lang = 'en-US') {
   if (typeof window === 'undefined' || !window.speechSynthesis || !text) {
     return;
   }
@@ -48,12 +52,12 @@ export function speak(text) {
   cancelSpeech();
 
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'ru-RU';
+  utterance.lang = lang;
   utterance.rate = 1;
   utterance.pitch = 1;
   utterance.volume = 1;
 
-  const voice = pickRussianVoice();
+  const voice = pickVoice(lang);
   if (voice) {
     utterance.voice = voice;
   }

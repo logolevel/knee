@@ -1,7 +1,9 @@
 import { Repeat2 } from 'lucide-react';
+import { useI18n } from '../i18n/I18nContext.js';
 import { NumberField } from './NumberField.jsx';
 
 export function ExerciseCard({ exercise, onToggle, onDurationChange }) {
+  const { messages } = useI18n();
   const isRegular = exercise.type === 'regular';
 
   return (
@@ -32,7 +34,7 @@ export function ExerciseCard({ exercise, onToggle, onDurationChange }) {
                   : 'bg-rose-500/15 text-rose-300'
               }`}
             >
-              {isRegular ? 'Обычное' : 'Табата'}
+              {isRegular ? messages.card.regular : messages.card.tabata}
             </span>
           </div>
 
@@ -43,17 +45,17 @@ export function ExerciseCard({ exercise, onToggle, onDurationChange }) {
               {exercise.hasLegSwap ? (
                 <div className="inline-flex items-center gap-1.5 rounded-full bg-sky-500/10 px-2.5 py-1 text-[11px] font-medium text-sky-300">
                   <Repeat2 size={12} />
-                  Смена ног
+                  {messages.card.legSwap}
                 </div>
               ) : null}
 
               <NumberField
-                label="Длительность"
+                label={messages.card.duration}
                 value={exercise.durationMinutes ?? 3}
                 min={1}
                 max={60}
                 step={1}
-                suffix={exercise.hasLegSwap ? 'минуты на одну ногу' : 'минуты'}
+                suffix={exercise.hasLegSwap ? messages.card.minutesPerLeg : messages.card.minutes}
                 onChange={onDurationChange}
               />
             </div>

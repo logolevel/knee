@@ -4,7 +4,7 @@ import { formatTime } from '../utils/formatTime';
 import { playLongBeep, playShortBeep } from '../utils/audio';
 import { cancelSpeech, speak } from '../utils/speech';
 
-export function useWorkoutTimer({ settings, exercises, onComplete }) {
+export function useWorkoutTimer({ settings, exercises, messages, onComplete }) {
   const [status, setStatus] = useState('idle');
   const [phaseIndex, setPhaseIndex] = useState(0);
   const [remaining, setRemaining] = useState(0);
@@ -17,6 +17,11 @@ export function useWorkoutTimer({ settings, exercises, onComplete }) {
   const lastShortBeepRef = useRef(null);
   const finishedRef = useRef(false);
   const onCompleteRef = useRef(onComplete);
+  const messagesRef = useRef(messages);
+
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
 
   useEffect(() => {
     statusRef.current = status;
@@ -41,7 +46,7 @@ export function useWorkoutTimer({ settings, exercises, onComplete }) {
       finishedRef.current = true;
       setStatus('complete');
       cancelSpeech();
-      speak('Тренировка завершена');
+      speak(messagesRef.current.speech.complete, messagesRef.current.speechLang);
       onCompleteRef.current?.();
       return;
     }
@@ -63,12 +68,12 @@ export function useWorkoutTimer({ settings, exercises, onComplete }) {
     playLongBeep();
 
     if (nextPhase.speech) {
-      speak(nextPhase.speech);
+      speak(nextPhase.speech, messagesRef.current.speechLang);
     }
   }, []);
 
   const start = useCallback(() => {
-    const phases = buildPhases(settings, exercises);
+    const phases = buildPhases(settings, exercises, messagesRef.current);
     phasesRef.current = phases;
     finishedRef.current = false;
 

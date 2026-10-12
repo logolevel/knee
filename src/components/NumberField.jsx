@@ -1,4 +1,5 @@
 import { Minus, Plus } from 'lucide-react';
+import { useI18n } from '../i18n/I18nContext.js';
 
 export function NumberField({
   label,
@@ -9,6 +10,7 @@ export function NumberField({
   step = 1,
   suffix,
 }) {
+  const { messages } = useI18n();
   const clamp = (next) => Math.min(max, Math.max(min, next));
 
   return (
@@ -21,7 +23,7 @@ export function NumberField({
           type="button"
           className="flex h-12 w-12 shrink-0 items-center justify-center text-slate-300 transition hover:bg-slate-800 active:bg-slate-700"
           onClick={() => onChange(clamp(value - step))}
-          aria-label={`Уменьшить ${label}`}
+          aria-label={messages.field.decrease(label)}
         >
           <Minus size={18} />
         </button>
@@ -42,7 +44,7 @@ export function NumberField({
           type="button"
           className="flex h-12 w-12 shrink-0 items-center justify-center text-slate-300 transition hover:bg-slate-800 active:bg-slate-700"
           onClick={() => onChange(clamp(value + step))}
-          aria-label={`Увеличить ${label}`}
+          aria-label={messages.field.increase(label)}
         >
           <Plus size={18} />
         </button>

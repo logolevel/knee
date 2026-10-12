@@ -7,6 +7,7 @@ import {
   Play,
   X,
 } from 'lucide-react';
+import { useI18n } from '../i18n/I18nContext.js';
 
 const PHASE_THEMES = {
   warmup: {
@@ -32,20 +33,22 @@ const PHASE_THEMES = {
 };
 
 export function ActiveTimerScreen({ timer, onStop }) {
+  const { messages } = useI18n();
+  const t = messages.timer;
   const { phase, remaining, formattedTime, progress, isPaused } = timer;
   const theme = PHASE_THEMES[phase?.kind] ?? PHASE_THEMES.regular;
   const isUrgent = remaining > 0 && remaining <= 3;
 
   const title = phase?.kind === 'transition'
-    ? `Далее: ${phase.nextExerciseTitle}`
-    : phase?.exerciseTitle ?? phase?.label ?? 'Тренировка';
+    ? t.next(phase.nextExerciseTitle)
+    : phase?.exerciseTitle ?? phase?.label ?? t.workoutFallback;
 
   const description = phase?.kind === 'transition'
-    ? 'Отдых между упражнениями'
+    ? t.restBetween
     : phase?.exerciseDescription ?? '';
 
   const handleStop = () => {
-    if (window.confirm('Завершить тренировку и вернуться к настройкам?')) {
+    if (window.confirm(t.confirmStop)) {
       onStop();
     }
   };
@@ -65,19 +68,19 @@ export function ActiveTimerScreen({ timer, onStop }) {
         <header className="flex items-start justify-between gap-3">
           <div>
             <p className={`inline-flex rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] ${theme.chip}`}>
-              {phase?.label ?? 'Фаза'}
+              {phase?.label ?? t.phaseFallback}
             </p>
             <p className="mt-3 text-sm text-white/75">
               {phase?.kind === 'warmup'
-                ? 'Подготовка'
-                : `Упражнение ${timer.exerciseNumber} из ${timer.totalExercises}`}
+                ? t.getReady
+                : t.exerciseOf(timer.exerciseNumber, timer.totalExercises)}
             </p>
           </div>
           <button
             type="button"
             onClick={handleStop}
             className="flex h-11 w-11 items-center justify-center rounded-2xl bg-black/20 text-white/90"
-            aria-label="Завершить тренировку"
+            aria-label={t.stop}
           >
             <X size={20} />
           </button>
@@ -94,13 +97,13 @@ export function ActiveTimerScreen({ timer, onStop }) {
 
           {timer.isTabata ? (
             <p className="mt-5 text-lg font-semibold text-white/90">
-              Круг {phase.set} из {phase.totalSets}
+              {t.setOf(phase.set, phase.totalSets)}
             </p>
           ) : null}
 
           {phase?.kind === 'regular' && phase.totalLegs === 2 ? (
             <p className="mt-5 text-lg font-semibold text-white/90">
-              Нога {phase.leg} из {phase.totalLegs}
+              {t.legOf(phase.leg, phase.totalLegs)}
             </p>
           ) : null}
 
@@ -111,7 +114,7 @@ export function ActiveTimerScreen({ timer, onStop }) {
 
           {isPaused ? (
             <p className="mt-4 rounded-full bg-black/25 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white/80">
-              Пауза
+              {t.paused}
             </p>
           ) : null}
         </div>
@@ -119,7 +122,7 @@ export function ActiveTimerScreen({ timer, onStop }) {
         <div className="space-y-3">
           <div className="grid grid-cols-3 gap-3">
             <ControlButton
-              label="Пред. упр."
+              label={t.prevExercise}
               disabled={!timer.canPrevExercise}
               onClick={timer.prevExercise}
             >
@@ -132,16 +135,16 @@ export function ActiveTimerScreen({ timer, onStop }) {
               type="button"
               onClick={timer.togglePause}
               className="flex h-20 flex-col items-center justify-center rounded-3xl bg-white text-slate-950 shadow-xl"
-              aria-label={isPaused ? 'Продолжить' : 'Пауза'}
+              aria-label={isPaused ? t.resume : t.pause}
             >
               {isPaused ? <Play size={32} fill="currentColor" /> : <Pause size={32} fill="currentColor" />}
               <span className="mt-1 text-[11px] font-bold uppercase tracking-wide">
-                {isPaused ? 'Дальше' : 'Пауза'}
+                {isPaused ? t.resumeShort : t.pause}
               </span>
             </button>
 
             <ControlButton
-              label="След. упр."
+              label={t.nextExercise}
               disabled={!timer.canNextExercise}
               onClick={timer.nextExercise}
             >
@@ -154,14 +157,14 @@ export function ActiveTimerScreen({ timer, onStop }) {
           {timer.isTabata ? (
             <div className="grid grid-cols-2 gap-3">
               <ControlButton
-                label="Пред. круг"
+                label={t.prevSet}
                 disabled={!timer.canPrevSet}
                 onClick={timer.prevSet}
               >
                 <ChevronLeft size={22} />
               </ControlButton>
               <ControlButton
-                label="След. круг"
+                label={t.nextSet}
                 disabled={!timer.canNextSet}
                 onClick={timer.nextSet}
               >
@@ -175,7 +178,7 @@ export function ActiveTimerScreen({ timer, onStop }) {
             onClick={handleStop}
             className="flex h-12 w-full items-center justify-center rounded-2xl bg-black/25 text-sm font-semibold text-white/85"
           >
-            Завершить тренировку
+            {t.stop}
           </button>
         </div>
       </div>

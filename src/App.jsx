@@ -1,4 +1,6 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import { useI18n } from './i18n/I18nContext.js';
+import { localizeExercises } from './i18n/translations.js';
 import { ConfigurationScreen } from './components/ConfigurationScreen.jsx';
 import { ActiveTimerScreen } from './components/ActiveTimerScreen.jsx';
 import { WorkoutCompleteScreen } from './components/WorkoutCompleteScreen.jsx';
@@ -16,6 +18,12 @@ export default function App() {
     deserialize: mergeExercises,
   });
   const [screen, setScreen] = useState('config');
+  const { messages } = useI18n();
+
+  const localizedExercises = useMemo(
+    () => localizeExercises(exercises, messages),
+    [exercises, messages],
+  );
 
   const handleComplete = useCallback(() => {
     setScreen('complete');
@@ -23,7 +31,8 @@ export default function App() {
 
   const timer = useWorkoutTimer({
     settings,
-    exercises,
+    exercises: localizedExercises,
+    messages,
     onComplete: handleComplete,
   });
 
@@ -65,7 +74,7 @@ export default function App() {
   return (
     <ConfigurationScreen
       settings={settings}
-      exercises={exercises}
+      exercises={localizedExercises}
       onSettingsChange={handleSettingsChange}
       onExerciseChange={handleExerciseChange}
       onStart={handleStart}
