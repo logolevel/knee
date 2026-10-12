@@ -8,6 +8,7 @@ import {
   X,
 } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext.js';
+import { ExerciseImage } from './ExerciseImage.jsx';
 
 const PHASE_THEMES = {
   warmup: {
@@ -110,6 +111,15 @@ export function ActiveTimerScreen({ timer, onStop }) {
           <h2 className="mt-6 max-w-md text-2xl font-bold leading-tight">{title}</h2>
           {description ? (
             <p className="mt-3 max-w-md text-sm leading-relaxed text-white/70">{description}</p>
+          ) : null}
+
+          {phase?.exerciseId ? (
+            <ExerciseImage
+              id={phase.exerciseId}
+              alt={phase.exerciseTitle ?? title}
+              eager
+              className="mt-4 h-80 w-auto max-w-full"
+            />
           ) : null}
 
           {isPaused ? (

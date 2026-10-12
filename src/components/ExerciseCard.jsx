@@ -1,5 +1,6 @@
 import { Repeat2 } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext.js';
+import { ExerciseImage } from './ExerciseImage.jsx';
 import { NumberField } from './NumberField.jsx';
 
 export function ExerciseCard({ exercise, onToggle, onDurationChange }) {
@@ -39,6 +40,8 @@ export function ExerciseCard({ exercise, onToggle, onDurationChange }) {
           </div>
 
           <p className="mt-2 text-sm leading-relaxed text-slate-400">{exercise.description}</p>
+
+          <ExerciseImage id={exercise.id} alt={exercise.title} className="mt-3 w-1/3" />
 
           {isRegular ? (
             <div className="mt-4 space-y-3">

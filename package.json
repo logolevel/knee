@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node src/utils/buildPhases.test.js"
+    "test": "node src/utils/buildPhases.test.js",
+    "images:optimize": "bash scripts/optimize-images.sh"
   },
   "dependencies": {
     "lucide-react": "^0.544.0",
