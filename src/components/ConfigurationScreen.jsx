@@ -6,6 +6,7 @@ import { getTotalBreakdown } from '../utils/buildPhases';
 import { formatDuration } from '../utils/formatTime';
 import { NumberField } from './NumberField.jsx';
 import { ExerciseCard } from './ExerciseCard.jsx';
+import { ExerciseImage } from './ExerciseImage.jsx';
 
 export function ConfigurationScreen({
   settings,
@@ -94,6 +95,11 @@ export function ConfigurationScreen({
               <p className="mt-1 text-sm leading-relaxed text-slate-400">
                 {messages.warmupExercise.description}
               </p>
+              <ExerciseImage
+                id="1"
+                alt={messages.warmupExercise.title}
+                className="mt-3 w-1/3"
+              />
             </div>
           </details>
 

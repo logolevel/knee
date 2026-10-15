@@ -39,13 +39,18 @@ export function ActiveTimerScreen({ timer, onStop }) {
   const { phase, remaining, formattedTime, progress, isPaused } = timer;
   const theme = PHASE_THEMES[phase?.kind] ?? PHASE_THEMES.regular;
   const isUrgent = remaining > 0 && remaining <= 3;
+  const isTransition = phase?.kind === 'transition';
+  const previewExerciseId = isTransition ? phase.nextExerciseId : phase?.exerciseId;
+  const previewExerciseTitle = isTransition
+    ? phase.nextExerciseTitle
+    : phase?.exerciseTitle;
 
-  const title = phase?.kind === 'transition'
+  const title = isTransition
     ? t.next(phase.nextExerciseTitle)
     : phase?.exerciseTitle ?? phase?.label ?? t.workoutFallback;
 
-  const description = phase?.kind === 'transition'
-    ? t.restBetween
+  const description = isTransition
+    ? phase.nextExerciseDescription || t.restBetween
     : phase?.exerciseDescription ?? '';
 
   const handleStop = () => {
@@ -113,20 +118,22 @@ export function ActiveTimerScreen({ timer, onStop }) {
             <p className="mt-3 max-w-md text-sm leading-relaxed text-white/70">{description}</p>
           ) : null}
 
-          {phase?.exerciseId ? (
+          {previewExerciseId ? (
             <ExerciseImage
-              id={phase.exerciseId}
-              alt={phase.exerciseTitle ?? title}
+              id={previewExerciseId}
+              alt={previewExerciseTitle ?? title}
               eager
-              className="mt-4 h-80 w-auto max-w-full"
+              className="mt-4 h-52 w-auto max-w-full"
             />
           ) : null}
 
-          {isPaused ? (
-            <p className="mt-4 rounded-full bg-black/25 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white/80">
-              {t.paused}
-            </p>
-          ) : null}
+          <p
+            className={`mt-3 mb-4 h-7 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-widest ${
+              isPaused ? 'bg-black/25 text-white/90' : 'invisible'
+            }`}
+          >
+            {t.paused}
+          </p>
         </div>
 
         <div className="space-y-3">

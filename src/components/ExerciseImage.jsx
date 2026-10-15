@@ -1,4 +1,4 @@
-const IMAGE_IDS = new Set(['2', '3', '4', '5', '6', '7', '8', '9', '10', '11']);
+const IMAGE_IDS = new Set(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']);
 
 export function hasExerciseImage(id) {
   return IMAGE_IDS.has(String(id));
@@ -12,7 +12,7 @@ export function ExerciseImage({ id, alt, eager = false, className = '' }) {
   const base = `${import.meta.env.BASE_URL}images/${id}`;
 
   return (
-    <picture>
+    <picture className="mb-4">
       <source
         type="image/webp"
         media="(max-width: 640px)"

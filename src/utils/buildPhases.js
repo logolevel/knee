@@ -22,6 +22,7 @@ export function buildPhases(settings, exercises, messages = translations.en) {
       kind: 'warmup',
       duration: warmupTime,
       label: labels.warmup,
+      exerciseId: '1',
       exerciseTitle: warmupExercise.title,
       exerciseDescription: warmupExercise.description,
       speech: speech.warmupStart(warmupExercise.title),
@@ -92,6 +93,7 @@ export function buildPhases(settings, exercises, messages = translations.en) {
         exerciseTitle: exercise.title,
         nextExerciseId: nextExercise.id,
         nextExerciseTitle: nextExercise.title,
+        nextExerciseDescription: nextExercise.description,
         label: labels.rest,
         speech: speech.transition(nextExercise.title),
       });
