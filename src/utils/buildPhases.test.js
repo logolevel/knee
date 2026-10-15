@@ -114,6 +114,12 @@ const checks = [
   ['detect: unsupported falls back to english', detectedFallback === 'en'],
   ['detect: only navigator.language', detectedSingle === 'uk'],
   ['non translatable keys are present', SUPPORTED_LANGUAGES.every((code) => [...nonTranslatableKeys].every((key) => translations[code][key]))],
+  [
+    'app names follow language',
+    translations.en.appName === 'Knee' &&
+      translations.uk.appName === 'Коліно' &&
+      translations.ru.appName === 'Колено',
+  ],
 ];
 
 const failed = checks.filter(([, ok]) => !ok);

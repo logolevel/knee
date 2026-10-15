@@ -5,6 +5,8 @@ const en = {
   code: 'en',
   nativeName: 'English',
   speechLang: 'en-US',
+  appName: 'Knee',
+  appDescription: 'Interval timer for knee rehabilitation',
   documentTitle: 'Knee — interval timer',
   units: { h: 'h', min: 'min', sec: 'sec' },
 
@@ -156,6 +158,8 @@ const uk = {
   code: 'uk',
   nativeName: 'Українська',
   speechLang: 'uk-UA',
+  appName: 'Коліно',
+  appDescription: 'Інтервальний таймер для реабілітації коліна',
   documentTitle: 'Коліно — інтервальний таймер',
   units: { h: 'год', min: 'хв', sec: 'с' },
 
@@ -306,6 +310,8 @@ const ru = {
   code: 'ru',
   nativeName: 'Русский',
   speechLang: 'ru-RU',
+  appName: 'Колено',
+  appDescription: 'Интервальный таймер для реабилитации колена',
   documentTitle: 'Колено — интервальный таймер',
   units: { h: 'ч', min: 'мин', sec: 'сек' },
 

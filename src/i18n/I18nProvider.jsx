@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage.js';
+import { applyAppIdentity } from './applyAppIdentity.js';
 import { I18nContext } from './I18nContext.js';
 import { detectLanguage, isSupportedLanguage, translations } from './translations.js';
 
@@ -13,8 +14,7 @@ export function I18nProvider({ children }) {
   const messages = translations[language] ?? translations.en;
 
   useEffect(() => {
-    document.documentElement.lang = messages.code;
-    document.title = messages.documentTitle;
+    applyAppIdentity(messages);
   }, [messages]);
 
   const value = useMemo(() => ({ language, setLanguage, messages }), [language, setLanguage, messages]);

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta
@@ -8,13 +8,55 @@
     />
     <meta name="theme-color" content="#020617" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="Колено" />
+    <meta name="apple-mobile-web-app-title" content="Knee" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="mobile-web-app-capable" content="yes" />
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon.png" />
     <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
     <link rel="manifest" href="./manifest.webmanifest" />
-    <title>Колено — интервальный таймер</title>
+    <title>Knee — interval timer</title>
+    <script>
+      (function () {
+        var names = { en: 'Knee', uk: 'Коліно', ru: 'Колено' };
+        var titles = {
+          en: 'Knee — interval timer',
+          uk: 'Коліно — інтервальний таймер',
+          ru: 'Колено — интервальный таймер',
+        };
+        var lang = '';
+        try {
+          var stored = window.localStorage.getItem('knee.language');
+          if (stored) {
+            lang = JSON.parse(stored);
+          }
+        } catch (error) {}
+        if (!names[lang]) {
+          var candidates = [].concat(navigator.languages || [], navigator.language || 'en');
+          for (var i = 0; i < candidates.length; i += 1) {
+            var code = String(candidates[i] || '')
+              .toLowerCase()
+              .split('-')[0];
+            if (names[code]) {
+              lang = code;
+              break;
+            }
+          }
+        }
+        if (!names[lang]) {
+          lang = 'en';
+        }
+        document.documentElement.lang = lang;
+        document.title = titles[lang];
+        var appleTitle = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+        if (appleTitle) {
+          appleTitle.setAttribute('content', names[lang]);
+        }
+        var manifest = document.querySelector('link[rel="manifest"]');
+        if (manifest) {
+          manifest.setAttribute('href', './manifest-' + lang + '.webmanifest');
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

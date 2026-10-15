@@ -1,6 +1,6 @@
 {
-  "name": "Колено",
-  "short_name": "Колено",
+  "name": "Knee",
+  "short_name": "Knee",
   "description": "Interval timer for knee rehabilitation",
   "start_url": "./",
   "scope": "./",
@@ -8,6 +8,7 @@
   "orientation": "portrait",
   "background_color": "#020617",
   "theme_color": "#020617",
+  "lang": "en",
   "icons": [
     {
       "src": "./icon-192.png",
