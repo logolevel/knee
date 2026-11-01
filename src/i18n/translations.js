@@ -176,7 +176,7 @@ const en = {
     10: {
       title: 'Half-squat side steps',
       description:
-        'Put a band around your knees (if you have one) and move with side steps, controlling the standing-leg angle so it does not cause knee pain. It is important not to sway, so the knee stays still.',
+        'Put a band around your knees (if you have one) and move with side steps, controlling the standing-leg angle so it does not cause knee pain. Keep the chosen knee-bend angle constant and do not sway.',
     },
     11: {
       title: 'Squats with a band',
@@ -360,7 +360,7 @@ const uk = {
     10: {
       title: 'Переміщення на напівзігнутих',
       description:
-        'Надіти гуму (якщо є) на коліна й приставним кроком переміщатися, контролюючи кут опорної ноги, щоб не викликати біль у коліні. Важливо не розгойдуватися, щоб коліно було статичним.',
+        'Надіти гуму (якщо є) на коліна й приставним кроком переміщатися, контролюючи кут опорної ноги, щоб не викликати біль у коліні. Важливо зберігати обраний кут згину колін постійним, не розгойдуючись.',
     },
     11: {
       title: 'Присідання з гумкою',
@@ -542,7 +542,7 @@ const ru = {
     10: {
       title: 'Перемещение на полусогнутых',
       description:
-        'Надеть резину(если есть) на колени и приставным шагом перемещаться, конрролируя угол опорной ноги, чтобы не вызывать боль в колене. Важно не раскачиваться, чтобы колено было статичным.',
+        'Надеть резину(если есть) на колени и приставным шагом перемещаться, контролируя угол опорной ноги, чтобы не вызывать боль в колене. Важно сохранять выбранный угол сгиба коленей постоянным, не раскачиваясь.',
     },
     11: {
       title: 'Приседания с резинкой',
