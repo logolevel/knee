@@ -4,10 +4,17 @@ import { localizeExercises } from './i18n/translations.js';
 import { ConfigurationScreen } from './components/ConfigurationScreen.jsx';
 import { ActiveTimerScreen } from './components/ActiveTimerScreen.jsx';
 import { WorkoutCompleteScreen } from './components/WorkoutCompleteScreen.jsx';
-import { defaultExercises, defaultSettings, mergeExercises, mergeSettings } from './data/defaults';
+import {
+  applyDifficulty,
+  defaultExercises,
+  defaultSettings,
+  mergeExercises,
+  mergeSettings,
+} from './data/defaults';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { useWakeLock } from './hooks/useWakeLock';
 import { useWorkoutTimer } from './hooks/useWorkoutTimer';
+import { getDifficultyByDuration } from './utils/buildPhases';
 import { initAudio } from './utils/audio';
 
 export default function App() {
@@ -48,6 +55,12 @@ export default function App() {
     );
   };
 
+  const handleDifficultyChange = (difficulty) => {
+    const applied = applyDifficulty(difficulty, exercises);
+    setSettings((previous) => ({ ...previous, ...applied.settings }));
+    setExercises(applied.exercises);
+  };
+
   const handleStart = () => {
     initAudio();
     if (typeof navigator !== 'undefined' && 'wakeLock' in navigator) {
@@ -68,7 +81,8 @@ export default function App() {
   }
 
   if (screen === 'workout') {
-    return <ActiveTimerScreen timer={timer} onStop={handleStop} />;
+    const difficulty = getDifficultyByDuration(settings, localizedExercises);
+    return <ActiveTimerScreen timer={timer} difficulty={difficulty} onStop={handleStop} />;
   }
 
   return (
@@ -77,6 +91,7 @@ export default function App() {
       exercises={localizedExercises}
       onSettingsChange={handleSettingsChange}
       onExerciseChange={handleExerciseChange}
+      onDifficultyChange={handleDifficultyChange}
       onStart={handleStart}
     />
   );

@@ -55,6 +55,23 @@
         if (manifest) {
           manifest.setAttribute('href', './manifest-' + lang + '.webmanifest');
         }
+
+        var theme = 'system';
+        try {
+          var storedTheme = window.localStorage.getItem('knee.theme');
+          if (storedTheme) {
+            theme = JSON.parse(storedTheme);
+          }
+        } catch (error) {}
+        var dark =
+          theme === 'dark' ||
+          (theme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('dark', dark);
+        document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+        var themeColor = document.querySelector('meta[name="theme-color"]');
+        if (themeColor) {
+          themeColor.setAttribute('content', dark ? '#020617' : '#f8fafc');
+        }
       })();
     </script>
   </head>

@@ -1,3 +1,8 @@
+import {
+  applyDifficulty,
+  DIFFICULTY_LEVELS,
+  getRegularDurationSeconds,
+} from '../data/defaults.js';
 import { translations } from '../i18n/translations.js';
 
 export function getActiveExercises(exercises) {
@@ -7,13 +12,14 @@ export function getActiveExercises(exercises) {
 export function buildPhases(settings, exercises, messages = translations.en) {
   const {
     warmupTime = 0,
+    stretchTime = 0,
     tabataWorkTime = 0,
     tabataRestTime = 0,
     tabataSets = 1,
     restBetweenExercises = 0,
   } = settings ?? {};
 
-  const { phase: labels, speech, warmupExercise } = messages;
+  const { phase: labels, speech, warmupExercise, stretchExercise } = messages;
   const active = getActiveExercises(exercises);
   const phases = [];
 
@@ -63,7 +69,7 @@ export function buildPhases(settings, exercises, messages = translations.en) {
         }
       }
     } else {
-      const duration = Math.max(1, exercise.durationMinutes ?? 3) * 60;
+      const duration = getRegularDurationSeconds(exercise);
       const totalLegs = exercise.hasLegSwap ? 2 : 1;
 
       for (let leg = 1; leg <= totalLegs; leg += 1) {
@@ -100,6 +106,18 @@ export function buildPhases(settings, exercises, messages = translations.en) {
     }
   });
 
+  if (stretchTime > 0) {
+    phases.push({
+      kind: 'stretch',
+      duration: stretchTime,
+      label: labels.stretch,
+      exerciseId: '12',
+      exerciseTitle: stretchExercise.title,
+      exerciseDescription: stretchExercise.description,
+      speech: speech.stretchStart(stretchExercise.title),
+    });
+  }
+
   return phases;
 }
 
@@ -107,8 +125,22 @@ export function getTotalDuration(settings, exercises) {
   return buildPhases(settings, exercises).reduce((sum, phase) => sum + phase.duration, 0);
 }
 
+export function getDifficultyByDuration(settings, exercises) {
+  const actual = getTotalDuration(settings, exercises);
+
+  return DIFFICULTY_LEVELS.reduce((closest, level) => {
+    const applied = applyDifficulty(level, exercises);
+    const total = getTotalDuration(applied.settings, applied.exercises);
+    const delta = Math.abs(total - actual);
+    if (closest == null || delta < closest.delta) {
+      return { level, delta };
+    }
+    return closest;
+  }, null)?.level ?? 'easy';
+}
+
 export function getTotalBreakdown(settings, exercises) {
-  const breakdown = { warmup: 0, tabata: 0, regular: 0, rest: 0 };
+  const breakdown = { warmup: 0, tabata: 0, regular: 0, rest: 0, stretch: 0 };
 
   buildPhases(settings, exercises).forEach((phase) => {
     if (phase.kind === 'warmup') {
@@ -119,6 +151,8 @@ export function getTotalBreakdown(settings, exercises) {
       breakdown.regular += phase.duration;
     } else if (phase.kind === 'transition') {
       breakdown.rest += phase.duration;
+    } else if (phase.kind === 'stretch') {
+      breakdown.stretch += phase.duration;
     }
   });
 
@@ -131,6 +165,7 @@ export function findExerciseStarts(phases) {
 
   phases.forEach((phase, index) => {
     const isStart =
+      phase.kind === 'stretch' ||
       (phase.kind === 'tabata-work' && phase.set === 1) ||
       (phase.kind === 'regular' && (phase.leg == null || phase.leg === 1));
 

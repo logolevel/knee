@@ -20,9 +20,16 @@ const en = {
     breakdownTabata: 'Tabata',
     breakdownRegular: 'Regular exercises',
     breakdownRest: 'Rest between exercises',
-    globalSettings: 'Global settings',
+    breakdownStretch: 'Stretching',
+    exerciseSettings: 'Exercise settings',
+    difficulty: 'Difficulty',
+    difficultyEasy: 'Easy',
+    difficultyMedium: 'Medium',
+    difficultyHard: 'Hard',
     warmup: 'Warm-up',
     warmupTime: 'Warm-up time',
+    stretch: 'Stretching',
+    stretchTime: 'Stretching time',
     minutes: 'minutes',
     seconds: 'seconds',
     tabataWork: 'Tabata work',
@@ -30,11 +37,21 @@ const en = {
     sets: 'Rounds',
     setsHint: 'work/rest repeats',
     restBetween: 'Rest between exercises',
+    appSettings: 'App settings',
     language: 'Language',
+    theme: 'Theme',
+    themeSystem: 'System',
+    themeLight: 'Light',
+    themeDark: 'Dark',
     exercises: 'Exercises',
     active: (count) => `Active: ${count}`,
     start: 'Start workout',
     enableOne: 'Enable at least one exercise',
+  },
+
+  image: {
+    open: 'View larger image',
+    close: 'Close image',
   },
 
   card: {
@@ -44,6 +61,9 @@ const en = {
     duration: 'Duration',
     minutesPerLeg: 'minutes per leg',
     minutes: 'minutes',
+    secondsPerLeg: 'seconds per leg',
+    seconds: 'seconds',
+    perLeg: 'per leg',
   },
 
   field: {
@@ -55,6 +75,7 @@ const en = {
     confirmStop: 'End the workout and return to settings?',
     stop: 'End workout',
     getReady: 'Get ready',
+    coolDown: 'Cool-down',
     exerciseOf: (current, total) => `Exercise ${current} of ${total}`,
     setOf: (current, total) => `Round ${current} of ${total}`,
     legOf: (current, total) => `Leg ${current} of ${total}`,
@@ -80,6 +101,7 @@ const en = {
 
   phase: {
     warmup: 'Warm-up',
+    stretch: 'Stretching',
     work: 'Work',
     rest: 'Rest',
     firstLeg: 'First leg',
@@ -89,6 +111,7 @@ const en = {
 
   speech: {
     warmupStart: (title) => `Warm-up started. ${title}`,
+    stretchStart: (title) => `Stretching started. ${title}`,
     start: 'Start',
     startWithTitle: (title) => `${title}. Start`,
     rest: 'Rest',
@@ -101,6 +124,12 @@ const en = {
     title: 'Heel slides',
     description:
       'Lie on your back on the floor and slide your heels along the floor toward your buttocks.',
+  },
+
+  stretchExercise: {
+    title: 'Quadriceps stretch',
+    description:
+      'Stand upright, then kneel and hold the back foot, pulling the heel toward the glute to stretch the quadriceps. Repeat on the other leg.',
   },
 
   exercises: {
@@ -173,9 +202,16 @@ const uk = {
     breakdownTabata: 'Табата',
     breakdownRegular: 'Звичайні вправи',
     breakdownRest: 'Відпочинок між вправами',
-    globalSettings: 'Глобальні налаштування',
+    breakdownStretch: 'Розтяжка',
+    exerciseSettings: 'Налаштування вправ',
+    difficulty: 'Складність',
+    difficultyEasy: 'Легкий',
+    difficultyMedium: 'Середній',
+    difficultyHard: 'Важкий',
     warmup: 'Розминка',
     warmupTime: 'Час розминки',
+    stretch: 'Розтяжка',
+    stretchTime: 'Час розтяжки',
     minutes: 'хвилини',
     seconds: 'секунди',
     tabataWork: 'Робота табати',
@@ -183,11 +219,21 @@ const uk = {
     sets: 'Кола',
     setsHint: 'повтори роботи/відпочинку',
     restBetween: 'Відпочинок між вправами',
+    appSettings: 'Налаштування програми',
     language: 'Мова',
+    theme: 'Тема',
+    themeSystem: 'Система',
+    themeLight: 'Світла',
+    themeDark: 'Темна',
     exercises: 'Вправи',
     active: (count) => `Активно: ${count}`,
     start: 'Почати тренування',
     enableOne: 'Увімкніть хоча б одну вправу',
+  },
+
+  image: {
+    open: 'Відкрити зображення більше',
+    close: 'Закрити зображення',
   },
 
   card: {
@@ -197,6 +243,9 @@ const uk = {
     duration: 'Тривалість',
     minutesPerLeg: 'хвилини на одну ногу',
     minutes: 'хвилини',
+    secondsPerLeg: 'секунди на одну ногу',
+    seconds: 'секунди',
+    perLeg: 'на одну ногу',
   },
 
   field: {
@@ -208,6 +257,7 @@ const uk = {
     confirmStop: 'Завершити тренування й повернутися до налаштувань?',
     stop: 'Завершити тренування',
     getReady: 'Підготовка',
+    coolDown: 'Заминка',
     exerciseOf: (current, total) => `Вправа ${current} з ${total}`,
     setOf: (current, total) => `Коло ${current} з ${total}`,
     legOf: (current, total) => `Нога ${current} з ${total}`,
@@ -233,6 +283,7 @@ const uk = {
 
   phase: {
     warmup: 'Розминка',
+    stretch: 'Розтяжка',
     work: 'Робота',
     rest: 'Відпочинок',
     firstLeg: 'Перша нога',
@@ -242,6 +293,7 @@ const uk = {
 
   speech: {
     warmupStart: (title) => `Розпочалася розминка. ${title}`,
+    stretchStart: (title) => `Розпочалася розтяжка. ${title}`,
     start: 'Старт',
     startWithTitle: (title) => `${title}. Старт`,
     rest: 'Відпочинок',
@@ -253,6 +305,12 @@ const uk = {
   warmupExercise: {
     title: 'Ковзання п’ятами',
     description: 'Лягти на спину на підлогу й ковзати п’ятами по підлозі до сідниць.',
+  },
+
+  stretchExercise: {
+    title: 'Розтяжка квадрицепса',
+    description:
+      'Стати рівно, потім опуститися на коліно й узяти задню стопу, підтягуючи п’яту до сідниці, щоб розтягнути квадрицепс. Повторити на іншій нозі.',
   },
 
   exercises: {
@@ -325,9 +383,16 @@ const ru = {
     breakdownTabata: 'Табата',
     breakdownRegular: 'Обычные упражнения',
     breakdownRest: 'Отдых между упражнениями',
-    globalSettings: 'Глобальные настройки',
+    breakdownStretch: 'Растяжка',
+    exerciseSettings: 'Настройки упражнений',
+    difficulty: 'Сложность',
+    difficultyEasy: 'Лёгкий',
+    difficultyMedium: 'Средний',
+    difficultyHard: 'Тяжёлый',
     warmup: 'Разминка',
     warmupTime: 'Время разминки',
+    stretch: 'Растяжка',
+    stretchTime: 'Время растяжки',
     minutes: 'минуты',
     seconds: 'секунды',
     tabataWork: 'Работа табаты',
@@ -335,11 +400,21 @@ const ru = {
     sets: 'Круги',
     setsHint: 'повторы работы/отдыха',
     restBetween: 'Отдых между упражнениями',
+    appSettings: 'Настройки приложения',
     language: 'Язык',
+    theme: 'Тема',
+    themeSystem: 'Система',
+    themeLight: 'Светлая',
+    themeDark: 'Тёмная',
     exercises: 'Упражнения',
     active: (count) => `Активно: ${count}`,
     start: 'Начать тренировку',
     enableOne: 'Включите хотя бы одно упражнение',
+  },
+
+  image: {
+    open: 'Открыть изображение крупнее',
+    close: 'Закрыть изображение',
   },
 
   card: {
@@ -349,6 +424,9 @@ const ru = {
     duration: 'Длительность',
     minutesPerLeg: 'минуты на одну ногу',
     minutes: 'минуты',
+    secondsPerLeg: 'секунды на одну ногу',
+    seconds: 'секунды',
+    perLeg: 'на одну ногу',
   },
 
   field: {
@@ -360,6 +438,7 @@ const ru = {
     confirmStop: 'Завершить тренировку и вернуться к настройкам?',
     stop: 'Завершить тренировку',
     getReady: 'Подготовка',
+    coolDown: 'Заминка',
     exerciseOf: (current, total) => `Упражнение ${current} из ${total}`,
     setOf: (current, total) => `Круг ${current} из ${total}`,
     legOf: (current, total) => `Нога ${current} из ${total}`,
@@ -385,6 +464,7 @@ const ru = {
 
   phase: {
     warmup: 'Разминка',
+    stretch: 'Растяжка',
     work: 'Работа',
     rest: 'Отдых',
     firstLeg: 'Первая нога',
@@ -394,6 +474,7 @@ const ru = {
 
   speech: {
     warmupStart: (title) => `Началась разминка. ${title}`,
+    stretchStart: (title) => `Началась растяжка. ${title}`,
     start: 'Старт',
     startWithTitle: (title) => `${title}. Старт`,
     rest: 'Отдых',
@@ -405,6 +486,12 @@ const ru = {
   warmupExercise: {
     title: 'Скольжение на пятках',
     description: 'Лечь на спину на пол и скользить пятками по полу до ягодиц.',
+  },
+
+  stretchExercise: {
+    title: 'Растяжка квадрицепса',
+    description:
+      'Встать ровно, затем опуститься на колено и взять заднюю стопу, подтягивая пятку к ягодице, чтобы растянуть квадрицепс. Повторить на другой ноге.',
   },
 
   exercises: {

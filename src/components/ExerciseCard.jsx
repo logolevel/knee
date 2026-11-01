@@ -11,15 +11,15 @@ export function ExerciseCard({ exercise, onToggle, onDurationChange }) {
     <article
       className={`rounded-3xl border p-4 transition ${
         exercise.isActive
-          ? 'border-slate-700 bg-slate-900/80'
-          : 'border-slate-800 bg-slate-950/60 opacity-60'
+          ? 'border-line-strong bg-card'
+          : 'border-line bg-card-2 opacity-60'
       }`}
     >
       <div className="flex items-start gap-3">
         <label className="mt-0.5 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center">
           <input
             type="checkbox"
-            className="h-5 w-5 accent-emerald-400"
+            className="h-5 w-5 accent-emerald-500"
             checked={exercise.isActive}
             onChange={(event) => onToggle(event.target.checked)}
           />
@@ -27,38 +27,39 @@ export function ExerciseCard({ exercise, onToggle, onDurationChange }) {
 
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-3">
-            <h3 className="text-base font-semibold leading-snug text-white">{exercise.title}</h3>
+            <h3 className="text-base font-semibold leading-snug text-heading">{exercise.title}</h3>
             <span
               className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${
                 isRegular
-                  ? 'bg-emerald-500/15 text-emerald-300'
-                  : 'bg-rose-500/15 text-rose-300'
+                  ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300'
+                  : 'bg-rose-500/15 text-rose-700 dark:text-rose-300'
               }`}
             >
               {isRegular ? messages.card.regular : messages.card.tabata}
             </span>
           </div>
 
-          <p className="mt-2 text-sm leading-relaxed text-slate-400">{exercise.description}</p>
+          <p className="mt-2 text-sm leading-relaxed text-muted">{exercise.description}</p>
 
-          <ExerciseImage id={exercise.id} alt={exercise.title} className="mt-3 w-1/3" />
+          <ExerciseImage id={exercise.id} alt={exercise.title} className="mt-3 w-1/3" zoomable />
 
           {isRegular ? (
             <div className="mt-4 space-y-3">
               {exercise.hasLegSwap ? (
-                <div className="inline-flex items-center gap-1.5 rounded-full bg-sky-500/10 px-2.5 py-1 text-[11px] font-medium text-sky-300">
+                <div className="inline-flex items-center gap-1.5 rounded-full bg-sky-500/10 px-2.5 py-1 text-[11px] font-medium text-sky-700 dark:text-sky-300">
                   <Repeat2 size={12} />
                   {messages.card.legSwap}
                 </div>
               ) : null}
 
               <NumberField
+                display="duration"
                 label={messages.card.duration}
-                value={exercise.durationMinutes ?? 3}
-                min={1}
-                max={60}
-                step={1}
-                suffix={exercise.hasLegSwap ? messages.card.minutesPerLeg : messages.card.minutes}
+                value={exercise.durationSeconds ?? 30}
+                min={15}
+                max={3600}
+                step={15}
+                suffix={exercise.hasLegSwap ? messages.card.perLeg : undefined}
                 onChange={onDurationChange}
               />
             </div>
