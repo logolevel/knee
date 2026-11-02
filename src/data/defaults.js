@@ -29,7 +29,7 @@ export const difficultyPresets = {
       stretchTime: 180,
       tabataWorkTime: 15,
       tabataRestTime: 5,
-      tabataSets: 15,
+      tabataSets: 10,
       restBetweenExercises: 20,
     },
     regularDurationSeconds: 120,
