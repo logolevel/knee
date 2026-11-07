@@ -136,37 +136,37 @@ const en = {
     2: {
       title: 'Knee press',
       description:
-        'Lie on your back, place a soft roll under the knee and press the knee into the roll to feel the quadriceps. It is especially important to pull the toes toward you to feel the quadriceps.',
+        'Lie on your back, place a soft roll under the knee and press the knee into the roll to feel the quadriceps. It is especially important to pull the toes toward you to feel the quadriceps. Keep the quadriceps tensed throughout the entire interval!',
     },
     3: {
       title: 'Straight leg raise',
       description:
-        'Lie on your back with one leg on the floor and raise the other leg up, pulling the toes toward you to feel the quadriceps. For extra resistance you can use a band.',
+        'Lie on your back with one leg on the floor and raise the other leg up, pulling the toes toward you to feel the quadriceps. Keep the quadriceps tensed throughout the entire interval! For extra resistance you can use a band.',
     },
     4: {
       title: 'Forward leg push with a fitball',
       description:
-        'Sit on a chair, set the knee at 90 degrees and press a fitball into the wall with your leg. Control the pressing force so there is no sharp pain.',
+        'Sit on a chair, set the knee at 90 degrees and press a fitball into the wall with your leg. Control the pressing force so there is no sharp pain. Keep the quadriceps tensed throughout the entire interval!',
     },
     5: {
       title: 'Band knee pull-back',
       description:
-        'Tie the band to a post, put one leg in the band and move it backward, rising onto the toe and onto the heel.',
+        'Tie the band to a post, put one leg in the band and move it backward, rising onto the toe and onto the heel. Keep the quadriceps tensed throughout the entire interval!',
     },
     6: {
       title: 'Wall sit with a fitball',
       description:
-        'Place a fitball behind your back (if you have one) and lower smoothly to 90 degrees, then hold that position. If 90 degrees causes sharp pain, reduce the angle to a comfortable one.',
+        'Place a fitball behind your back (if you have one) and lower smoothly to 90 degrees, then hold that position. If 90 degrees causes sharp pain, reduce the angle to a comfortable one. Keep the quadriceps tensed throughout the entire interval!',
     },
     7: {
       title: 'Glute bridge',
       description:
-        'Lie on the floor and lift your hips up, keeping the glutes tense. If it feels easy, you can rise onto your toes.',
+        'Lie on the floor and lift your hips up, keeping the glutes tense. If it feels easy, you can rise onto your toes. Keep the quadriceps and glutes tensed throughout the entire interval!',
     },
     8: {
       title: 'Leg abduction on a slightly bent knee',
       description:
-        'Stand on one leg with a slightly bent knee and move the straight leg in four directions: forward, sideways, backward and to the other side. The standing-leg angle should not cause knee pain.',
+        'Stand on one leg with a slightly bent knee and move the straight leg in four directions: forward, sideways, backward and to the other side. The standing-leg angle should not cause knee pain. Try to keep the knee bent throughout the entire interval!',
     },
     9: {
       title: 'Step-down on a platform',
@@ -320,37 +320,37 @@ const uk = {
     2: {
       title: 'Вдавлювання коліна',
       description:
-        'Лягти на спину, підкласти під коліно м’який валик і вдавлювати коліно в цей валик, щоб відчути квадріцепс. Особливо важливо тягнути носок ноги на себе, щоб відчути квадріцепс.',
+        'Лягти на спину, підкласти під коліно м’який валик і вдавлювати коліно в цей валик, щоб відчути квадріцепс. Особливо важливо тягнути носок ноги на себе, щоб відчути квадріцепс. Тримати м’яз квадрицепса в напруженні протягом усього інтервалу!',
     },
     3: {
       title: 'Підняття прямої ноги вгору',
       description:
-        'Лягти на спину, одна нога на підлозі, другу піднімати вгору, натягуючи носок на себе, щоб відчути квадріцепс. Для додаткового опору можна використати гуму.',
+        'Лягти на спину, одна нога на підлозі, другу підняти вгору, натягуючи носок на себе, щоб відчути квадріцепс. Тримати м’яз квадрицепса в напруженні протягом усього інтервалу! Для додаткового опору можна використати гуму.',
     },
     4: {
       title: 'Відведення ноги вперед з фітболом',
       description:
-        'Сісти на стілець, поставити коліно під 90 градусів і вдавлювати фітбол ногою в стіну. Контролювати силу натискання, щоб не було різкого болю.',
+        'Сісти на стілець, поставити коліно під 90 градусів і вдавлювати фітбол ногою в стіну. Контролювати силу натискання, щоб не було різкого болю. Тримати м’яз квадрицепса в напруженні протягом усього інтервалу!',
     },
     5: {
       title: 'Відтягування коліна гумою назад',
       description:
-        'Прив’язати гуму до стовпчика, одягнути одну ногу в гуму й відводити її назад, стаючи на носок і на п’ятку.',
+        'Прив’язати гуму до стовпчика, одягнути одну ногу в гуму й відводити її назад, стаючи на носок і на п’ятку. Тримати м’яз квадрицепса в напруженні протягом усього інтервалу!',
     },
     6: {
       title: 'Стільчик з фітболом біля стіни',
       description:
-        'Підкласти до спини фітбол (якщо є), опуститися плавно під 90 градусів і утримувати це положення. Якщо при 90 градусах різкий біль, зменшити кут до комфортного для вас.',
+        'Підкласти до спини фітбол (якщо є), опуститися плавно під 90 градусів і утримувати це положення. Якщо при 90 градусах різкий біль, зменшити кут до комфортного для вас. Тримати м’яз квадрицепса в напруженні протягом усього інтервалу!',
     },
     7: {
       title: 'Сідничний місток',
       description:
-        'Лягти на підлогу й піднімати сідниці вгору, утримуючи в них напругу. Якщо легко, можна ставати на носочки.',
+        'Лягти на підлогу й підняти сідниці вгору, утримуючи в них напругу. Якщо легко, можна ставати на носочки. Тримати м’язи квадрицепса та сідниць у напруженні протягом усього інтервалу!',
     },
     8: {
       title: 'Відведення ноги на напівзігнутому коліні',
       description:
-        'Стати на одну ногу, трохи зігнувши коліно, і відводити пряму ногу в чотирьох площинах: уперед, убік, назад і в інший бік. Кут опорної ноги не повинен викликати біль у коліні.',
+        'Стати на одну ногу, трохи зігнувши коліно, і відводити пряму ногу в чотирьох площинах: уперед, убік, назад і в інший бік. Кут опорної ноги не повинен викликати біль у коліні. Постаратися тримати коліно зігнутим протягом усього інтервалу!',
     },
     9: {
       title: 'Опускання на платформі',
@@ -504,35 +504,35 @@ const ru = {
     2: {
       title: 'Вдавливание колена',
       description:
-        'Лечь на спину, подложить под колено мягкий валик и вдавливать колено в этот валик, чтобы прочувствовать квадрицепс. Особенно важно тянуть носок ноги на себя, чтобы прочувствовать квадрицепс.',
+        'Лечь на спину, подложить под колено мягкий валик и вдавливать колено в этот валик, чтобы прочувствовать квадрицепс. Особенно важно тянуть носок ноги на себя, чтобы прочувствовать квадрицепс. Держать мышцу квадрицепца в напряжении на протяжении всего интервала!',
     },
     3: {
       title: 'Поднятие прямой ноги вверх',
       description:
-        'Лечь на спину, одна нога на полу, вторую поднимаить вверх, натягивая носок на себя, чтобы прочувствовать квадрицепс. Для дополнительного сопротивления можно использовать резину.',
+        'Лечь на спину, одна нога на полу, вторую поднять вверх, натягивая носок на себя, чтобы прочувствовать квадрицепс. Держать мышцу квадрицепца в напряжении на протяжении всего интервала! Для дополнительного сопротивления можно использовать резину.',
     },
     4: {
       title: 'Отведение ноги вперёд с фитболом',
       description:
-        'Сесть на стул, поставить колено в 90 градусов и вдавливать фитбол ногой в стену. Контролировать силу надавливания, чтобы не было резкой боли.',
+        'Сесть на стул, поставить колено в 90 градусов и вдавливать фитбол ногой в стену. Контролировать силу надавливания, чтобы не было резкой боли. Держать мышцу квадрицепца в напряжении на протяжении всего интервала!',
     },
     5: {
       title: 'Оттяжка колена резиной назад',
       description:
-        'Привязать резину к столбику, одеть одну ногу в резину и отводить её назад, вставая на носок и на пятку.',
+        'Привязать резину к столбику, одеть одну ногу в резину и отводить её назад, вставая на носок и на пятку. Держать мышцу квадрицепца в напряжении на протяжении всего интервала!',
     },
     6: {
       title: 'Стульчик с фитболом у стены',
-      description: 'Подложить к спине фитбол(если есть), опуститься плавно под 90 градусов и удерживать это положение. Если при 90 градусах резкая боль, то уменьшить угол до комфортного для вас.',
+      description: 'Подложить к спине фитбол(если есть), опуститься плавно под 90 градусов и удерживать это положение. Если при 90 градусах резкая боль, то уменьшить угол до комфортного для вас. Держать мышцу квадрицепца в напряжении на протяжении всего интервала!',
     },
     7: {
       title: 'Ягодичный мост',
-      description: 'Лечь на пол и поднимать ягодицы вверх, удерживая в них напряжение. Если леко, то можно становиться на носочки',
+      description: 'Лечь на пол и поднять ягодицы вверх, удерживая в них напряжение. Если легко, то можно становиться на носочки. Держать мышцу квадрицепца и ягодиц в напряжении на протяжении всего интервала!',
     },
     8: {
       title: 'Отведение ноги на полусогнутом колене',
       description:
-        'Встать на одну ногу, слегка согнув колено, и отводить прямую ногу в четыре плоскости: вперёд, вбок, назад и в другой бок. Угол опорной ноги не должен вызывать боль в колене.',
+        'Встать на одну ногу, слегка согнув колено, и отводить прямую ногу в четыре плоскости: вперёд, вбок, назад и в другой бок. Угол опорной ноги не должен вызывать боль в колене. Постараться держать колено согнутым на протяжении всего интервала!',
     },
     9: {
       title: 'Опускание на платформе',

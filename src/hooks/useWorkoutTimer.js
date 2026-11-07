@@ -149,10 +149,18 @@ export function useWorkoutTimer({ settings, exercises, messages, onComplete }) {
 
     if (current.kind === 'transition') {
       const currentStart = starts.find(
-        (index) => phasesRef.current[index].exerciseId === current.exerciseId,
+        (index) =>
+          index < phaseIndexRef.current &&
+          phasesRef.current[index].exerciseId === current.exerciseId,
       );
       if (currentStart != null) {
         enterPhase(currentStart);
+        return;
+      }
+
+      const warmupIndex = phasesRef.current.findIndex((phase) => phase.kind === 'warmup');
+      if (warmupIndex !== -1 && warmupIndex < phaseIndexRef.current) {
+        enterPhase(warmupIndex);
       }
       return;
     }

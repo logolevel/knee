@@ -15,7 +15,9 @@ import { ExerciseImage } from './ExerciseImage.jsx';
 const DIFFICULTY_THEMES = {
   easy: {
     light: {
-      background: 'from-emerald-100 via-green-200 to-emerald-200',
+      from: '#d1fae5',
+      via: '#bbf7d0',
+      to: '#a7f3d0',
       fg: 'text-emerald-950',
       muted: 'text-emerald-900/70',
       chip: 'bg-emerald-800/10 text-emerald-900',
@@ -26,7 +28,9 @@ const DIFFICULTY_THEMES = {
       pause: 'bg-white text-emerald-950 shadow-xl',
     },
     dark: {
-      background: 'from-emerald-800 via-emerald-900 to-emerald-950',
+      from: '#065f46',
+      via: '#064e3b',
+      to: '#022c22',
       fg: 'text-white',
       muted: 'text-white/75',
       chip: 'bg-white/15 text-emerald-50',
@@ -39,7 +43,9 @@ const DIFFICULTY_THEMES = {
   },
   medium: {
     light: {
-      background: 'from-orange-100 via-amber-200 to-orange-200',
+      from: '#ffedd5',
+      via: '#fde68a',
+      to: '#fed7aa',
       fg: 'text-orange-950',
       muted: 'text-orange-900/70',
       chip: 'bg-orange-800/10 text-orange-900',
@@ -50,7 +56,9 @@ const DIFFICULTY_THEMES = {
       pause: 'bg-white text-orange-950 shadow-xl',
     },
     dark: {
-      background: 'from-orange-800 via-amber-900 to-orange-950',
+      from: '#9a3412',
+      via: '#78350f',
+      to: '#431407',
       fg: 'text-white',
       muted: 'text-white/75',
       chip: 'bg-white/15 text-orange-50',
@@ -63,7 +71,9 @@ const DIFFICULTY_THEMES = {
   },
   hard: {
     light: {
-      background: 'from-rose-100 via-red-200 to-rose-200',
+      from: '#ffe4e6',
+      via: '#fecaca',
+      to: '#fecdd3',
       fg: 'text-rose-950',
       muted: 'text-rose-900/70',
       chip: 'bg-rose-800/10 text-rose-900',
@@ -74,7 +84,9 @@ const DIFFICULTY_THEMES = {
       pause: 'bg-white text-rose-950 shadow-xl',
     },
     dark: {
-      background: 'from-red-800 via-rose-900 to-red-950',
+      from: '#991b1b',
+      via: '#881337',
+      to: '#4c0519',
       fg: 'text-white',
       muted: 'text-white/75',
       chip: 'bg-white/15 text-rose-50',
@@ -90,7 +102,9 @@ const DIFFICULTY_THEMES = {
 const BOOKEND_THEMES = {
   warmup: {
     light: {
-      background: 'from-amber-100 via-orange-100 to-amber-200',
+      from: '#fef3c7',
+      via: '#ffedd5',
+      to: '#fde68a',
       fg: 'text-amber-950',
       muted: 'text-amber-900/70',
       chip: 'bg-amber-800/10 text-amber-900',
@@ -101,7 +115,9 @@ const BOOKEND_THEMES = {
       pause: 'bg-white text-amber-950 shadow-xl',
     },
     dark: {
-      background: 'from-amber-600 via-orange-700 to-amber-900',
+      from: '#d97706',
+      via: '#c2410c',
+      to: '#78350f',
       fg: 'text-white',
       muted: 'text-white/75',
       chip: 'bg-white/15 text-amber-50',
@@ -114,7 +130,9 @@ const BOOKEND_THEMES = {
   },
   stretch: {
     light: {
-      background: 'from-violet-100 via-purple-200 to-violet-200',
+      from: '#ede9fe',
+      via: '#e9d5ff',
+      to: '#ddd6fe',
       fg: 'text-violet-950',
       muted: 'text-violet-900/70',
       chip: 'bg-violet-800/10 text-violet-900',
@@ -125,7 +143,9 @@ const BOOKEND_THEMES = {
       pause: 'bg-white text-violet-950 shadow-xl',
     },
     dark: {
-      background: 'from-violet-600 via-purple-800 to-violet-950',
+      from: '#7c3aed',
+      via: '#6b21a8',
+      to: '#2e1065',
       fg: 'text-white',
       muted: 'text-white/75',
       chip: 'bg-white/15 text-violet-50',
@@ -138,8 +158,40 @@ const BOOKEND_THEMES = {
   },
 };
 
+const REST_THEME = {
+  light: {
+    from: '#e0f2fe',
+    via: '#dbeafe',
+    to: '#bfdbfe',
+    fg: 'text-blue-950',
+    muted: 'text-blue-900/70',
+    chip: 'bg-blue-800/10 text-blue-900',
+    control: 'bg-blue-950/10 text-blue-950',
+    overlay: 'bg-blue-950/10 text-blue-950',
+    progressTrack: 'bg-blue-950/10',
+    progress: 'bg-blue-800',
+    pause: 'bg-white text-blue-950 shadow-xl',
+  },
+  dark: {
+    from: '#1e40af',
+    via: '#1e3a8a',
+    to: '#172554',
+    fg: 'text-white',
+    muted: 'text-white/75',
+    chip: 'bg-white/15 text-blue-50',
+    control: 'bg-black/20 text-white',
+    overlay: 'bg-black/20 text-white',
+    progressTrack: 'bg-black/20',
+    progress: 'bg-white/80',
+    pause: 'bg-white text-slate-950 shadow-xl',
+  },
+};
+
 function getPhaseTheme(phaseKind, difficulty, colorMode) {
   const mode = colorMode === 'light' ? 'light' : 'dark';
+  if (phaseKind === 'tabata-rest' || phaseKind === 'transition') {
+    return REST_THEME[mode];
+  }
   if (phaseKind === 'warmup' || phaseKind === 'stretch') {
     return BOOKEND_THEMES[phaseKind][mode];
   }
@@ -177,7 +229,12 @@ export function ActiveTimerScreen({ timer, onStop, difficulty = 'easy' }) {
 
   return (
     <div
-      className={`flex min-h-dvh select-none flex-col bg-gradient-to-b ${theme.background} ${theme.fg} transition-colors duration-500`}
+      className={`timer-screen flex min-h-dvh select-none flex-col ${theme.fg}`}
+      style={{
+        '--timer-from': theme.from,
+        '--timer-via': theme.via,
+        '--timer-to': theme.to,
+      }}
     >
       <div className={`h-1.5 w-full ${theme.progressTrack}`}>
         <div
@@ -195,7 +252,7 @@ export function ActiveTimerScreen({ timer, onStop, difficulty = 'easy' }) {
             <p className={`mt-3 text-sm ${theme.muted}`}>
               {phase?.kind === 'warmup'
                 ? t.getReady
-                : phase?.kind === 'stretch'
+                : phase?.kind === 'stretch' || (isTransition && phase.nextKind === 'stretch')
                   ? t.coolDown
                   : t.exerciseOf(timer.exerciseNumber, timer.totalExercises)}
             </p>

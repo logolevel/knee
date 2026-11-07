@@ -1,4 +1,5 @@
 import {
+  BOOKEND_REST_SECONDS,
   buildPhases,
   findExerciseStarts,
   getDifficultyByDuration,
@@ -46,9 +47,14 @@ const enPhases = buildPhases(settings, exercises, en);
 const kinds = phases.map((phase) => phase.kind);
 const starts = findExerciseStarts(phases);
 
-const tabataA = phases.filter((phase) => phase.exerciseId === '1');
+const tabataA = phases.filter(
+  (phase) =>
+    phase.exerciseId === '1' && (phase.kind === 'tabata-work' || phase.kind === 'tabata-rest'),
+);
 const regular = phases.filter((phase) => phase.exerciseId === '2' && phase.kind === 'regular');
 const transitions = phases.filter((phase) => phase.kind === 'transition');
+const restAfterWarmup = transitions[0];
+const firstExerciseRest = transitions.find((phase) => phase.nextExerciseId === '2');
 
 function setNavigator(value) {
   Object.defineProperty(globalThis, 'navigator', { value, configurable: true, writable: true });
@@ -88,23 +94,33 @@ const detectedSingle = detectLanguage();
 
 const checks = [
   ['starts with warmup', phases[0].kind === 'warmup' && phases[0].duration === 180],
-  ['tabata has 10 work + 10 rest', tabataA.filter((p) => p.kind === 'tabata-work').length === 10 && tabataA.filter((p) => p.kind === 'tabata-rest').length === 10],
+  [
+    'fixed rest after warmup',
+    restAfterWarmup?.kind === 'transition' &&
+      restAfterWarmup.duration === BOOKEND_REST_SECONDS &&
+      restAfterWarmup.nextExerciseTitle === 'Табата А',
+  ],
+  ['tabata has 10 work + 9 rest', tabataA.filter((p) => p.kind === 'tabata-work').length === 10 && tabataA.filter((p) => p.kind === 'tabata-rest').length === 9],
+  [
+    'last tabata round has no rest',
+    tabataA.at(-1).kind === 'tabata-work' && tabataA.at(-1).set === 10,
+  ],
   ['inactive regular is skipped', !phases.some((phase) => phase.exerciseId === '3')],
   ['leg swap creates two regular phases', regular.length === 2 && regular[1].speech === 'Смена ноги' && regular[0].duration === 180],
-  ['transition announces next title', transitions[0].speech === 'Отдых. Следующее упражнение: Регуляр с ногами'],
-  ['transition keeps finished exercise id', transitions[0].exerciseId === '1'],
-  ['transition points to next exercise image', transitions[0].nextExerciseId === '2'],
+  ['transition announces next title', firstExerciseRest.speech === 'Отдых. Следующее упражнение: Регуляр с ногами'],
+  ['transition keeps finished exercise id', firstExerciseRest.exerciseId === '1'],
+  ['transition points to next exercise image', firstExerciseRest.nextExerciseId === '2'],
   ['three exercise starts', starts.length === 3],
   ['warmup speech', phases[0].speech === 'Началась разминка. Скольжение на пятках'],
   ['warmup title', phases[0].exerciseTitle === 'Скольжение на пятках'],
   ['warmup uses image 1', phases[0].exerciseId === '1'],
   ['tabata work says start', tabataA.find((p) => p.kind === 'tabata-work' && p.set === 1)?.speech === 'Табата А. Старт'],
   ['later tabata work says start only', tabataA.find((p) => p.kind === 'tabata-work' && p.set === 2)?.speech === 'Старт'],
-  ['total duration sums all phases', getTotalDuration(settings, exercises) === 180 + 260 + 360 + 40],
+  ['total duration sums all phases', getTotalDuration(settings, exercises) === 180 + 254 + 360 + 40 + BOOKEND_REST_SECONDS],
   [
     'breakdown by type',
     JSON.stringify(getTotalBreakdown(settings, exercises)) ===
-      JSON.stringify({ warmup: 180, tabata: 260, regular: 360, rest: 40, stretch: 0 }),
+      JSON.stringify({ warmup: 180, tabata: 254, regular: 360, rest: 40 + BOOKEND_REST_SECONDS, stretch: 0 }),
   ],
   ['format hours', formatDuration(3725) === '1 h 2 min 5 sec'],
   ['format exact minute hides seconds', formatDuration(60, ru.units) === '1 мин'],
@@ -114,7 +130,7 @@ const checks = [
   ['format minutes in uk', formatDuration(840, translations.uk.units) === '14 хв'],
   ['english phases speak english', enPhases[0].speech === 'Warm-up started. Heel slides' && enPhases[0].label === 'Warm-up'],
   ['english leg swap', enPhases.filter((p) => p.kind === 'regular')[1].speech === 'Switch legs'],
-  ['english transition', enPhases.find((p) => p.kind === 'transition').speech === 'Rest. Next exercise: Регуляр с ногами'],
+  ['english transition', enPhases.find((p) => p.nextExerciseId === '2').speech === 'Rest. Next exercise: Регуляр с ногами'],
   ['phase durations do not depend on language', getTotalDuration(settings, exercises) === enPhases.reduce((sum, p) => sum + p.duration, 0)],
   ['all languages share the same message keys', sameShape],
   ['every default exercise is translated in every language', allExercisesTranslated],
@@ -122,7 +138,7 @@ const checks = [
   ['localizeExercises keeps settings', localized.find((e) => e.id === '11')?.durationSeconds === 30],
   ['regular duration prefers seconds', getRegularDurationSeconds({ durationSeconds: 45, durationMinutes: 3 }) === 45],
   ['regular duration falls back to minutes', getRegularDurationSeconds({ durationMinutes: 3 }) === 180],
-  ['default difficulty is easy', defaultSettings.difficulty === 'easy' && defaultSettings.warmupTime === 60 && defaultSettings.tabataSets === 5],
+  ['default difficulty is easy', defaultSettings.difficulty === 'easy' && defaultSettings.warmupTime === 60 && defaultSettings.tabataSets === 10],
   ['matching difficulty detects easy defaults', getMatchingDifficulty(defaultSettings, defaultExercises) === 'easy'],
   [
     'applyDifficulty writes hard preset',
@@ -192,9 +208,26 @@ checks.push(
     stretchStarts.length === 4 && stretchPhases[stretchStarts[3]].kind === 'stretch',
   ],
   [
+    'fixed rest before stretch',
+    stretchPhases.at(-2).kind === 'transition' &&
+      stretchPhases.at(-2).duration === BOOKEND_REST_SECONDS &&
+      stretchPhases.at(-2).nextKind === 'stretch',
+  ],
+  [
+    'no rest after warmup when warmup is off',
+    buildPhases({ ...settings, warmupTime: 0 }, exercises)[0].kind !== 'warmup' &&
+      buildPhases({ ...settings, warmupTime: 0 }, exercises)[0].kind !== 'transition',
+  ],
+  [
     'breakdown includes stretch',
     JSON.stringify(getTotalBreakdown(stretchSettings, exercises)) ===
-      JSON.stringify({ warmup: 180, tabata: 260, regular: 360, rest: 40, stretch: 180 }),
+      JSON.stringify({
+        warmup: 180,
+        tabata: 254,
+        regular: 360,
+        rest: 40 + BOOKEND_REST_SECONDS * 2,
+        stretch: 180,
+      }),
   ],
   [
     'english stretch speech',

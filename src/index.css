@@ -40,6 +40,38 @@
   --color-line-strong: var(--line-strong);
 }
 
+@property --timer-from {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #d1fae5;
+}
+
+@property --timer-via {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #bbf7d0;
+}
+
+@property --timer-to {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #a7f3d0;
+}
+
+.timer-screen {
+  background-image: linear-gradient(
+    to bottom,
+    var(--timer-from),
+    var(--timer-via),
+    var(--timer-to)
+  );
+  transition:
+    --timer-from 700ms ease,
+    --timer-via 700ms ease,
+    --timer-to 700ms ease,
+    color 700ms ease;
+}
+
 html,
 body,
 #root {

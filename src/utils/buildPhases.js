@@ -5,8 +5,36 @@ import {
 } from '../data/defaults.js';
 import { translations } from '../i18n/translations.js';
 
+export const BOOKEND_REST_SECONDS = 10;
+
 export function getActiveExercises(exercises) {
   return (exercises ?? []).filter((exercise) => exercise.isActive);
+}
+
+function asTransitionTarget(item) {
+  return {
+    exerciseId: item.exerciseId ?? item.id,
+    exerciseTitle: item.exerciseTitle ?? item.title,
+    exerciseDescription: item.exerciseDescription ?? item.description,
+  };
+}
+
+function createTransition(from, to, duration, labels, speech, nextKind) {
+  const source = asTransitionTarget(from);
+  const target = asTransitionTarget(to);
+
+  return {
+    kind: 'transition',
+    duration,
+    exerciseId: source.exerciseId,
+    exerciseTitle: source.exerciseTitle,
+    nextExerciseId: target.exerciseId,
+    nextExerciseTitle: target.exerciseTitle,
+    nextExerciseDescription: target.exerciseDescription,
+    nextKind,
+    label: labels.rest,
+    speech: speech.transition(target.exerciseTitle),
+  };
 }
 
 export function buildPhases(settings, exercises, messages = translations.en) {
@@ -23,16 +51,47 @@ export function buildPhases(settings, exercises, messages = translations.en) {
   const active = getActiveExercises(exercises);
   const phases = [];
 
-  if (warmupTime > 0) {
-    phases.push({
-      kind: 'warmup',
-      duration: warmupTime,
-      label: labels.warmup,
-      exerciseId: '1',
-      exerciseTitle: warmupExercise.title,
-      exerciseDescription: warmupExercise.description,
-      speech: speech.warmupStart(warmupExercise.title),
-    });
+  const warmupPhase =
+    warmupTime > 0
+      ? {
+          kind: 'warmup',
+          duration: warmupTime,
+          label: labels.warmup,
+          exerciseId: '1',
+          exerciseTitle: warmupExercise.title,
+          exerciseDescription: warmupExercise.description,
+          speech: speech.warmupStart(warmupExercise.title),
+        }
+      : null;
+
+  const stretchPhase =
+    stretchTime > 0
+      ? {
+          kind: 'stretch',
+          duration: stretchTime,
+          label: labels.stretch,
+          exerciseId: '12',
+          exerciseTitle: stretchExercise.title,
+          exerciseDescription: stretchExercise.description,
+          speech: speech.stretchStart(stretchExercise.title),
+        }
+      : null;
+
+  if (warmupPhase) {
+    phases.push(warmupPhase);
+    const nextAfterWarmup = active[0] ?? stretchPhase;
+    if (nextAfterWarmup) {
+      phases.push(
+        createTransition(
+          warmupPhase,
+          nextAfterWarmup,
+          BOOKEND_REST_SECONDS,
+          labels,
+          speech,
+          nextAfterWarmup.kind ?? nextAfterWarmup.type,
+        ),
+      );
+    }
   }
 
   active.forEach((exercise, index) => {
@@ -54,7 +113,7 @@ export function buildPhases(settings, exercises, messages = translations.en) {
           });
         }
 
-        if (tabataRestTime > 0) {
+        if (tabataRestTime > 0 && set < tabataSets) {
           phases.push({
             kind: 'tabata-rest',
             duration: tabataRestTime,
@@ -92,30 +151,33 @@ export function buildPhases(settings, exercises, messages = translations.en) {
     }
 
     if (nextExercise && restBetweenExercises > 0) {
-      phases.push({
-        kind: 'transition',
-        duration: restBetweenExercises,
-        exerciseId: exercise.id,
-        exerciseTitle: exercise.title,
-        nextExerciseId: nextExercise.id,
-        nextExerciseTitle: nextExercise.title,
-        nextExerciseDescription: nextExercise.description,
-        label: labels.rest,
-        speech: speech.transition(nextExercise.title),
-      });
+      phases.push(
+        createTransition(
+          exercise,
+          nextExercise,
+          restBetweenExercises,
+          labels,
+          speech,
+          nextExercise.type,
+        ),
+      );
     }
   });
 
-  if (stretchTime > 0) {
-    phases.push({
-      kind: 'stretch',
-      duration: stretchTime,
-      label: labels.stretch,
-      exerciseId: '12',
-      exerciseTitle: stretchExercise.title,
-      exerciseDescription: stretchExercise.description,
-      speech: speech.stretchStart(stretchExercise.title),
-    });
+  if (stretchPhase) {
+    if (active.length > 0) {
+      phases.push(
+        createTransition(
+          active.at(-1),
+          stretchPhase,
+          BOOKEND_REST_SECONDS,
+          labels,
+          speech,
+          'stretch',
+        ),
+      );
+    }
+    phases.push(stretchPhase);
   }
 
   return phases;
